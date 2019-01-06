@@ -1,5 +1,6 @@
 import state
 
+
 # Functions
 def cmd_rob(args):
     if args:
@@ -16,7 +17,8 @@ def cmd_rob_scout(args):
         try:
             planet_id = int(args[0])
             if 0 <= planet_id < len(state.world.planet_richness):
-                print("Found a "+str(float.__round__(state.world.planet_richness[planet_id]*100))+"% richness planet")
+                print("Found a " + str(
+                    float.__round__(state.world.planet_richness[planet_id] * 100)) + "% richness planet")
             else:
                 print("Invalid planet-id: out of range")
         except ValueError:
