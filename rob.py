@@ -1,15 +1,5 @@
 import state
-
-
-# Functions
-def cmd_rob(args):
-    if args:
-        if args[0] in commands:
-            commands[args[0]](args[1:])
-        else:
-            print("Invalid choice")
-    else:
-        print("Robot doesn't actually do anything without scout - sorry")
+import command
 
 
 def cmd_rob_scout(args):
@@ -27,5 +17,31 @@ def cmd_rob_scout(args):
         print("Usage: rob scout [planet-id]")
 
 
-# Not Functions
+# Commands List
 commands = {"scout": cmd_rob_scout}
+
+
+def get_subcommands_as_string():
+    # Prints each key in commands on a new line
+    keys = (commands.keys())
+    string = ""
+    for key in keys:
+        if string is not "":
+            string += ", "
+        string += key
+    return string
+
+
+class Rob(command.Command):
+    manual = "Gives a robot the command specified\n" \
+             "Subcommands: " + get_subcommands_as_string()
+    syntax = "rob <subcommand>"
+
+    def execute(self, args):
+        if args:
+            if args[0] in commands:
+                commands[args[0]](args[1:])
+            else:
+                print("Invalid choice")
+        else:
+            print("Robot doesn't actually do anything without scout - sorry")
