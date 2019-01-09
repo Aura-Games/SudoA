@@ -1,8 +1,8 @@
 import state
-import command
+import shell
 
 
-def cmd_rob_scout(args):
+'''def cmd_rob_scout(args):
     if args:
         try:
             planet_id = int(args[0])
@@ -32,7 +32,7 @@ def get_subcommands_as_string():
     return string
 
 
-class Rob(command.Command):
+class Rob(shell.Command):
     manual = "Gives a robot the command specified\n" \
              "Subcommands: " + get_subcommands_as_string()
     syntax = "rob <subcommand>"
@@ -45,3 +45,28 @@ class Rob(command.Command):
                 print("Invalid choice")
         else:
             print("Robot doesn't actually do anything without scout - sorry")
+'''
+
+
+class Scout(shell.Command):
+    manual = "Sends the robot to the specified planet"
+    syntax = "scout <planet-id>"
+
+    def execute(self, args):
+        if args:
+            try:
+                planet_id = int(args[0])
+                if 0 <= planet_id < len(state.world.planet_richness):
+                    print("Found a " + str(
+                        float.__round__(state.world.planet_richness[planet_id] * 100)) + "% richness planet")
+                else:
+                    print("Invalid planet-id: out of range")
+            except ValueError:
+                print("Invalid planet-id: must be an integer")
+        else:
+            print("Usage: " + self.syntax)
+
+
+rob_commands = {"scout": Scout()}
+
+rob_shell = shell.ShellEnvironment("192.056.729", rob_commands)
